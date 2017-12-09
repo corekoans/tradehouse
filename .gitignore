@@ -1,4 +1,8 @@
 node_modules
 
+<<<<<<< HEAD
 bundle.js
 .DS_Store
+=======
+client/public/bundle.js
+>>>>>>> Fix clear products, need to refactor to connect() from context passing down store
