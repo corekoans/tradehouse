@@ -1,8 +1,16 @@
-node_modules
-
-<<<<<<< HEAD
-bundle.js
+## MAC Files ##
 .DS_Store
-=======
+
+## NPM ##
+node_modules
+npm-debug.log
+
+
+## Webpack ##
 client/public/bundle.js
->>>>>>> Fix clear products, need to refactor to connect() from context passing down store
+
+## Configuration Files ##
+config.js
+
+## Auth ##
+Auth/Auth0-variables.js
