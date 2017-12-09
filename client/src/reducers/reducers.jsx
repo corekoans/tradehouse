@@ -16,10 +16,7 @@ function products(
   switch (action.type) {
     case 'ADD_PRODUCT':
       var newState = Object.assign({}, state);
-
-      newState.products.items.push({
-        productName: action.productName,
-      });
+      newState.products.items.push(action.product);
 
       return newState;
 
@@ -46,7 +43,7 @@ function products(
   }
 }
 
-//combineReducer is not working properly yet
+//combineReducers is not working properly yet
 const reducer = combineReducers({
   products
 });
