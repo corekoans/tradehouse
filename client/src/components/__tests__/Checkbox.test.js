@@ -1,7 +1,7 @@
 import React from 'react';
 import {shallow, configure } from 'enzyme';
 import CheckboxWithLabel from '../Checkbox.jsx';
-
+import 'raf/polyfill';
 // Enzyme clauses
 import Adapter from 'enzyme-adapter-react-16';
 configure({ adapter: new Adapter() });
