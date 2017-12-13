@@ -1,5 +1,6 @@
 import React from 'react';
-import {shallow, configure } from 'enzyme';
+import 'raf/polyfill';
+import { shallow, configure } from 'enzyme';
 import App from '../App.jsx';
 import Header from '../Header.jsx';
 
@@ -8,9 +9,19 @@ import Header from '../Header.jsx';
 import Adapter from 'enzyme-adapter-react-16';
 configure({ adapter: new Adapter() });
 
-test('App.jsx renders an anchor to Merchant Home', () => {
-	const app = shallow(<App />);
-	console.log('APP: ',app);
-	var header = JSON.stringify(app.find('.mercHomeLink'));
-  console.log('HEADER: ',header);
+describe('Testing <App /> Component', () => {
+		const applic = shallow(<App />);
+		console.log('APP: ', applic);
+	it('App.jsx renders an anchor to Merchant Home', () => {
+
+		expect(applic.find('.notMercHome').exists()).toEqual(false);
+		expect(applic.find('.mercHome').exists()).toEqual(true);
+	});
+
+	// it('App.jsx simulated btn when clicked, changes text to 'clicked'', () => {
+	// 	applic.find('.btn').simulate('click');
+	// 	expect(applic.find('.btn').text()).toEqual('clicked');
+	// });
+
 });
+

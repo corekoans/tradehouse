@@ -1,18 +1,15 @@
 import './styles/style.scss';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore, applyMiddleware } from 'redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
-
+// Redux
+import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
-
-import tradehouseApp from './reducers/reducers.jsx';
-
-
 import { Provider } from 'react-redux';
-
+// Components
+import tradehouseApp from './reducers/reducers.jsx';
 import App from './components/App.jsx';
 import Header from './components/Header.jsx';
 import CustomerView from './containers/CustomerView.jsx';
@@ -28,7 +25,11 @@ var defaultState = {
   video: ''
 };
 
-const store = createStore(tradehouseApp, defaultState, composeWithDevTools(applyMiddleware(thunk)));
+const store = createStore(
+  tradehouseApp,
+  defaultState,
+  composeWithDevTools(applyMiddleware(thunk))
+);
 
 const Root = ({ store }) => (
   <Provider store={store}>
@@ -43,10 +44,10 @@ const Root = ({ store }) => (
       </div>
     </Router>
   </Provider>
-)
+);
 
 Root.propTypes = {
   store: PropTypes.object.isRequired
-}
+};
 
 ReactDOM.render(<Root store={store} />, document.getElementById('app'));
