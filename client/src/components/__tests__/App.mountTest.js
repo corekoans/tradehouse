@@ -8,7 +8,7 @@ configure({ adapter: new Adapter() });
 
 describe('it will either mount or not', () => {
 	it('will attempt to mount app', () => {
-		const component = mount(<App testing="test" />);
+		const component = mount(<App testing='test' />);
 		expect(component.find('.mercHome').exists()).toBe(true);
 	});
 });

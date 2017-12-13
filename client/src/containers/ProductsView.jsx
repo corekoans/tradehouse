@@ -44,3 +44,5 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, { addProduct, deleteProduct, fetchProducts })(ProductsView);
+
+
