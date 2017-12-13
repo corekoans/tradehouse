@@ -2,7 +2,7 @@ const db = require('../models/index.js');
 
 const saveNewProduct = (entry) => {
   return db.Product.create({
-    title: entry.productName,
+    title: entry.title,
     description: entry.description,
     quantity: entry.productQuantity,
     unitPrice: entry.price,
@@ -14,7 +14,7 @@ const deleteProduct = (entry) => {
   return db.Product.destroy({
     where: {
       merchantId: entry.merchantId,
-      title: entry.productName,
+      title: entry.title,
     },
   });
 };
@@ -33,22 +33,80 @@ const saveNewConsumer = (entry) => {
   });
 };
 
+const saveNewProductReview = (entry) => {
+  return db.ProductReview.create({
+    rating: entry.rating,
+    text: entry.text,
+    productId: entry.productId,
+    consumerId: entry.consumerId,
+  });
+};
+
+const editProductReview = (entry) => {
+  return db.ProductReview.findOne({
+    productId: entry.productId,
+    consumerId: entry.consumerId,
+  }).then((review) => {
+    return review.set({
+      rating: entry.rating,
+      text: entry.text,
+    });
+  });
+};
+
+const editMerchantReview = (entry) => {
+  return db.MerchantReview.findOne({
+    merchantId: entry.merchantId,
+    consumerId: entry.consumerId,
+  }).then((review) => {
+    return review.set({
+      rating: entry.rating,
+      text: entry.text,
+    });
+  });
+};
+
+const saveNewMerchantReview = (entry) => {
+  return db.MerchantReview.create({
+    rating: entry.rating,
+    text: entry.text,
+    productId: entry.productId,
+    consumerId: entry.consumerId,
+  });
+};
+
 const saveNewSubscription = (entry) => {
   return db.Subscription.create({ ...entry });
 };
 
 const findOneConsumer = (entry) => {
-  return db.Consumer.findOne({ username: entry.consumer || entry.username });
+  return db.Consumer.findOne({ id: entry.id });
 };
 
 const findOneMerchant = (entry) => {
-  return db.Merchant.findOne({ username: entry.merchant || entry.username });
+  return db.Merchant.findOne({ id: entry.id });
 };
 
 const findProductsOfMerchant = (merchantId) => {
   return db.Product.findAll({
     where: {
       merchantId,
+    },
+  });
+};
+
+const findReviewsOfMerchant = (merchantId) => {
+  return db.MerchantReview.findAll({
+    where: {
+      merchantId,
+    },
+  });
+};
+
+const findReviewsOfProduct = (productId) => {
+  return db.ProductReview.findAll({
+    where: {
+      productId,
     },
   });
 };
@@ -77,4 +135,10 @@ module.exports = {
   getAllProducts,
   getAllConsumers,
   findProductsOfMerchant,
+  saveNewProductReview,
+  saveNewMerchantReview,
+  editMerchantReview,
+  editProductReview,
+  findReviewsOfMerchant,
+  findReviewsOfProduct,
 };

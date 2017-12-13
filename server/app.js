@@ -5,15 +5,18 @@ const db = require('../models/index.js');
 const mountRoutes = require('./routes');
 
 const app = express();
-const port = process.env.PORT || 5421;
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-
 /* Webpack Hot Reloads */
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const config = require('../webpack.config');
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+
+const port = process.env.PORT || 5421;
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
 
 const compiler = webpack(config);
 app.use(
@@ -37,11 +40,18 @@ app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '/../client/public/index.html'));
 });
 
+io.on('connection', (socket) => {
+  console.log('a user connected');
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+});
+
 // TODO: prevent sync from outputting so much to console
 db.sequelize
   .sync()
   .then(() => {
-    app.listen(port, () => {
+    http.listen(port, () => {
       console.log(`Tradehouse server listening on port ${port}`);
     });
   });

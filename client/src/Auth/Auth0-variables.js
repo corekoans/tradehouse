@@ -1,11 +1,6 @@
-const config = require('../../../config.js');
-
-const clientId = config.clientId;
-const domain = config.domain;
-
 export const AUTH_CONFIG = {
-  domain: domain,
-  clientId: clientId,
+  domain: 'antonvs.auth0.com',
+  clientId: 'l5HhVRbwlvmryIQQljzDaHoMMAxF8873',
   callbackUrl: 'http://localhost:5421/callback',
   options: {
     languageDictionary: {

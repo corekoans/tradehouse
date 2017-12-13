@@ -22,10 +22,15 @@ router.get('/', asyncMiddleware(async (req, res, next) => {
   res.json(rows);
 }));
 
+router.get('/:merchantId', asyncMiddleware(async (req, res, next) => {
+  const merchant = await controllers.findOneMerchant(req.params.merchantId);
+  res.json(merchant);
+}));
+
 router.post('/:merchantId/products', asyncMiddleware(async (req, res, next) => {
   // // example data
   // req.body = {
-  //   productName: 'toothpaste',
+  //   title: 'toothpaste',
   //   description: 'minty',
   //   productQuantity: '5',
   //   price: '4.99',
@@ -38,4 +43,19 @@ router.post('/:merchantId/products', asyncMiddleware(async (req, res, next) => {
 router.get('/:merchantId/products', asyncMiddleware(async (req, res, next) => {
   const products = await controllers.findProductsOfMerchant(req.params.merchantId);
   res.json(products);
+}));
+
+router.post('/:merchantId/reviews', asyncMiddleware(async (req, res, next) => {
+  const newReview = await controllers.saveNewMerchantReview(req.body);
+  res.json(newReview);
+}));
+
+router.put('/:merchantId/reviews', asyncMiddleware(async (req, res, next) => {
+  const editedReview = await controllers.editMerchantReview(req.body);
+  res.json(editedReview);
+}));
+
+router.get('/:merchantId/reviews', asyncMiddleware(async (req, res, next) => {
+  const reviews = await controllers.findReviewsOfMerchant(req.params.merchantId);
+  res.json(reviews);
 }));

@@ -9,7 +9,7 @@ module.exports = router;
 router.post('/', asyncMiddleware(async (req, res, next) => {
   // // example data
   // req.body = {
-  //   productName: 'toothpaste',
+  //   title: 'toothpaste',
   //   description: 'minty',
   //   productQuantity: '5',
   //   price: '4.99',
@@ -36,3 +36,18 @@ router.delete('/', (req, res, next) => {
     .then(() => res.send('Deleted product'))
     .catch(err => console.error(err));
 });
+
+router.post('/reviews', asyncMiddleware(async (req, res, next) => {
+  const newReview = await controllers.saveNewProductReview(req.body);
+  res.json(newReview);
+}));
+
+router.put('/reviews', asyncMiddleware(async (req, res, next) => {
+  const editedReview = await controllers.editProductReview(req.body);
+  res.json(editedReview);
+}));
+
+router.get('/reviews', asyncMiddleware(async (req, res, next) => {
+  const reviews = await controllers.findReviewsOfProduct(req.params.productId);
+  res.json(reviews);
+}));
