@@ -36,11 +36,11 @@ const Root = ({ store }) => (
     <Router>
       <div>
         <Header />
-        <Route path='/CustomerView' component={CustomerView} />
-        <Route path='/ProductsView' component={ProductsView} />
-        <Route path='/MerchantHome' component={MerchantHome} />
-        <Route path='/BroadcastView' component={BroadcastView} />
-        <Route exact path='/' component={App} />
+        <Route path="/CustomerView" component={CustomerView} />
+        <Route path="/ProductsView" component={ProductsView} />
+        <Route path="/MerchantHome" component={MerchantHome} />
+        <Route path="/BroadcastView" component={BroadcastView} />
+        <Route exact path="/" component={App} />
       </div>
     </Router>
   </Provider>
