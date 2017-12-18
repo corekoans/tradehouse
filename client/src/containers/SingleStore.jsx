@@ -40,6 +40,7 @@ class SingleStore extends React.Component {
   }
 }
 
+
 const mapStateToProps = state => ({
   merchantProducts: state.merchantProducts,
   cart: state.cart,
