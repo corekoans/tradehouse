@@ -208,6 +208,12 @@ const findOneMerchantBySub = merchantIdToken => db.Merchant.findOne({
   },
 });
 
+const findOneCustomerBySub = customerIdToken => db.Customer.findOne({
+  where: {
+    sub: jwt.decode(customerIdToken).sub,
+  },
+});
+
 const findOneProduct = productId => db.Product.findOne({
   where: {
     id: productId,
@@ -299,4 +305,5 @@ module.exports = {
   changeToMerchant,
   editMerchantProfileAndFindByEmail,
   findOneMerchantBySub,
+  findOneCustomerBySub,
 };
