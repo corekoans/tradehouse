@@ -167,6 +167,25 @@ const editMerchantProfile = (merchantId, entry) =>
     stream: entry.stream,
   }));
 
+const editMerchantProfileAndFindByEmail = entry =>
+  db.Merchant.findOne({
+    where: {
+      email: entry.email,
+    },
+  }).then(merchant => merchant.update({
+    logo: entry.logo,
+    username: entry.username,
+    website: entry.website,
+    rating: entry.rating,
+    location: entry.location,
+    email: entry.email,
+    facebook: entry.facebook,
+    twitter: entry.twitter,
+    description: entry.description,
+    stream: entry.stream,
+    broadcastMessage: entry.broadcastMessage,
+    currentProduct: entry.currentProduct,
+  }));
 
 const findOneCustomer = customerId => db.Customer.findOne({
   where: {
@@ -211,12 +230,12 @@ const getAllProducts = () => db.Product.findAll({});
 const getAllCustomers = () => db.Customer.findAll({});
 
 const editMerchantStreamUrl = (entry, merchantId) => db.Merchant.findOne({
-    where: {
-      id: merchantId,
-    },
-  }).then(merchant => merchant.update({
-    stream: entry.url,
-  }));
+  where: {
+    id: merchantId,
+  },
+}).then(merchant => merchant.update({
+  stream: entry.url,
+}));
 
 
 const editMerchantBroadcastMessage = (entry, merchantId) => db.Merchant.findOne({
@@ -269,4 +288,5 @@ module.exports = {
   editMerchantBroadcastMessage,
   editMerchantFeaturedProduct,
   changeToMerchant,
+  editMerchantProfileAndFindByEmail,
 };
