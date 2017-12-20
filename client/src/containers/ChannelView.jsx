@@ -8,6 +8,8 @@ import { addToCart } from '../actions/cartActions.jsx';
 import { fetchMerchantInfo } from '../actions/merchantActions.jsx';
 import { fetchSingleProduct } from '../actions/productActions.jsx';
 import { follow, unfollow, fetchSubscriptions } from '../actions/customerActions.jsx';
+import { fetchCustomerInfoByToken } from '../actions/customerActions.jsx';
+import CustomerChat from '../chat/CustomerChat.jsx';
 
 class ChannelView extends React.Component {
   constructor(props) {
@@ -21,7 +23,8 @@ class ChannelView extends React.Component {
     // TODO: FETCH SUBSCRIPTIONS OF LOGGED IN CUSTOMER AND CHECK IF THEY ARE SUBSCRIBED
     // THEN RENDER FOLLOW/UNFOLLOW BUTTON BASED ON SUBSCRIPTION STATUS
     this.props.fetchMerchantInfo(this.props.match.params.merchantId)
-      .then(() => this.props.fetchSingleProduct(this.props.merchantInfo.currentProduct));
+      .then(() => this.props.fetchSingleProduct(this.props.merchantInfo.currentProduct))
+      .then(() => this.props.fetchCustomerInfoByToken());
   }
 
   followButtonClick() {
@@ -70,10 +73,7 @@ class ChannelView extends React.Component {
         <form action="">
           <input id="m" autoComplete="off" /><button>Send</button>
         </form>
-        <script src="/socket.io/socket.io.js" />
-        <script>
-            var socket = io();
-        </script>
+        <CustomerChat />
       </div>
     );
   }
@@ -83,10 +83,11 @@ const mapStateToProps = state => ({
   merchantInfo: state.merchantInfo,
   product: state.singleProduct,
   subscriptions: state.subscriptions,
+  customerInfo: state.customerInfo,
 });
 
 const mapDispatchToProps = {
-  addToCart, fetchMerchantInfo, fetchSingleProduct, follow, unfollow, fetchSubscriptions,
+  addToCart, fetchMerchantInfo, fetchSingleProduct, follow, unfollow, fetchSubscriptions, fetchCustomerInfoByToken
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChannelView);

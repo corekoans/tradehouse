@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import CartItem from '../components/customer/CartItem.jsx';
 import { removeFromCart, fetchCart, decreaseQuantityInCart, increaseQuantityInCart } from '../actions/cartActions.jsx';
 
@@ -11,10 +12,6 @@ class Cart extends React.Component {
     super(props);
   }
 
-  componentDidMount() {
-    this.props.fetchCart();
-  }
-
   render() {
     let totalCost = 0;
     this.props.cart.forEach((item) => {
@@ -23,10 +20,10 @@ class Cart extends React.Component {
     return (
       <div>
         <ol>
-          Current Cart: {this.props.cart.map((product, index) => (<CartItem product={product} key={index} removeFromCart={this.props.removeFromCart} increaseQuantityInCart={this.props.increaseQuantityInCart} decreaseQuantityInCart={this.props.decreaseQuantityInCart} />))}
-            Total Price: ${parseFloat(totalCost).toFixed(2)}
+          Current Cart: {this.props.cart.map((product, index) => (<CartItem product={product} key={index} removeFromCart={this.props.removeFromCart} increaseQuantityInCart={this.props.increaseQuantityInCart} decreaseQuantityInCart={this.props.decreaseQuantityInCart} customerId={this.props.customerId} />))}
+          Total Price: ${parseFloat(totalCost).toFixed(2)}
           <br />
-          <Link to={`/checkout/${1}`}>
+          <Link to={`/checkout/${this.props.customerId}`}>
             <br />
             <button>Checkout</button>
           </Link>
