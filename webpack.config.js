@@ -20,9 +20,29 @@ module.exports = {
         },
       },
       {
+        test: /\.(eot|otf|webp|ttf|woff|woff2)(\?.*)?$/,
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name: "[name].[hash].[ext]",
+              publicPath: "/",
+              outputPath: "assets/font/",
+            },
+          },
+        ],
+      },
+      {
         test: /\.(gif|png|jpe?g|svg)$/i,
         loaders: [
-          'file-loader', {
+          {
+             loader: "file-loader",
+             options: {
+               name: "[name].[hash].[ext]",
+               publicPath: "/",
+               outputPath: "assets/font/",
+             },
+           }, {
             loader: 'image-webpack-loader',
             options: {
               gifsicle: {
@@ -46,13 +66,6 @@ module.exports = {
             },
           },
         ],
-      },
-      {
-        test: /\.(ttf|eot|woff|woff2)$/,
-        loader: "file-loader",
-        options: {
-          name: "fonts/[name].[ext]",
-        },
       },
       {
         test: /\.scss$/,
