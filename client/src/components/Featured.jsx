@@ -11,8 +11,9 @@ class Featured extends React.Component {
     return (
       <div className="featuredBroadcast__container">
         <Link to={`/channel/${1}`} className="channelViewLink">
-          <h2>Featured Broadcast: Core Koans</h2>
+          <h3 className="container-header">Featured Broadcast: Core Koans</h3>
         </Link>
+        <div className="featuredVid__container">
         <iframe
           src="http://player.twitch.tv/?channel=datjoncat&muted=true"
           height="300"
@@ -21,8 +22,10 @@ class Featured extends React.Component {
           scrolling="no"
           allowFullScreen="true"
         />
+        </div>
+        <div className="featuredChat__container">
         <iframe
-          style={{ float: 'right' }}
+          class="featured__chat"
           frameBorder="0"
           scrolling="no"
           id="chat_embed"
@@ -30,6 +33,7 @@ class Featured extends React.Component {
           height="400"
           width="200"
         />
+        </div>
         <div className="featured__description">
           Description: Subscribe to Core Koans for the inside scoop on all the best deals!
         </div>
