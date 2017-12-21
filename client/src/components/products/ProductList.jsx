@@ -21,20 +21,18 @@ class ProductList extends React.Component {
     }
 
     return (
-      <span>
-        <table className="table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Name</th>
-              <th>Quantity</th>
-              <th>Price</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody>{ items }</tbody>
-        </table>
-      </span>
+      <table className="products__table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>{ items }</tbody>
+      </table>
     );
   }
 }
