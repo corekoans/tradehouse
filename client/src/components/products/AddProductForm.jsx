@@ -9,6 +9,7 @@ let AddProductForm = (props) => {
       quantity: parseInt(values.target[1].defaultValue, 10),
       unitPrice: parseFloat(values.target[2].defaultValue),
       description: values.target[3].defaultValue,
+      imageUrl: values.target[4].defaultValue,
       merchantId: 1,
     };
     return props.addProduct(product);
