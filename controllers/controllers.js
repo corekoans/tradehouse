@@ -1,22 +1,22 @@
-const jwt = require("jsonwebtoken");
-const db = require("../models/index.js");
+const jwt = require('jsonwebtoken');
+const db = require('../models/index.js');
+const elastic = require('../models/elasticSearch.js');
 
-const saveNewProduct = entry =>
-  db.Product.create({
-    title: entry.title,
-    description: entry.description,
-    quantity: entry.quantity,
-    unitPrice: entry.unitPrice,
-    merchantId: entry.merchantId,
-    imageUrl: entry.imageUrl
-  });
+const saveNewProduct = entry => db.Product.create({
+  title: entry.title,
+  description: entry.description,
+  quantity: entry.quantity,
+  unitPrice: entry.unitPrice,
+  merchantId: entry.merchantId,
+  imageUrl: entry.imageUrl,
+});
 
 const deleteProduct = entry =>
   db.Product.destroy({
     where: {
       merchantId: entry.merchantId,
-      title: entry.title
-    }
+      title: entry.title,
+    },
   });
 
 const saveNewMerchant = entry =>
@@ -33,13 +33,14 @@ const saveNewMerchant = entry =>
       description: entry.description,
       currentProduct: entry.currentProduct,
       storeName: entry.storeName,
-      sub: jwt.decode(entry.currentIdToken).sub
-    }
+      sub: jwt.decode(entry.currentIdToken).sub,
+    },
   });
+
 
 const saveNewStream = entry =>
   db.Stream.create({
-    merchantId: entry.id
+    merchantId: entry.id,
   });
 
 const saveNewCustomer = entry =>
@@ -48,8 +49,8 @@ const saveNewCustomer = entry =>
       username: entry.username,
       // password: entry.password,
       email: entry.email,
-      sub: jwt.decode(entry.currentIdToken).sub
-    }
+      sub: jwt.decode(entry.currentIdToken).sub,
+    },
   });
 
 const saveNewProductReview = entry =>
@@ -57,79 +58,77 @@ const saveNewProductReview = entry =>
     rating: entry.rating,
     text: entry.text,
     productId: entry.productId,
-    customerId: entry.customerId
+    customerId: entry.customerId,
   });
 
 const editProductReview = entry =>
   db.ProductReview.findOne({
     where: {
       productId: entry.productId,
-      customerId: entry.customerId
-    }
+      customerId: entry.customerId,
+    },
   }).then(review =>
     review.update({
       rating: entry.rating,
-      text: entry.text
-    })
-  );
+      text: entry.text,
+    }));
 
 const saveNewMerchantReview = entry =>
   db.MerchantReview.create({
     rating: entry.rating,
     text: entry.text,
     productId: entry.productId,
-    customerId: entry.customerId
+    customerId: entry.customerId,
   });
 
 const editMerchantReview = entry =>
   db.MerchantReview.findOne({
     where: {
       merchantId: entry.merchantId,
-      customerId: entry.customerId
-    }
+      customerId: entry.customerId,
+    },
   }).then(review =>
     review.update({
       rating: entry.rating,
-      text: entry.text
-    })
-  );
+      text: entry.text,
+    }));
 
 const saveNewWishlistedProduct = (customerId, productId) =>
   db.WishlistedProduct.create({
     customerId,
-    productId
+    productId,
   });
 
 const findCustomerWishlistedProducts = customerId =>
   db.WishlistedProduct.findAll({
-    where: { customerId }
+    where: { customerId },
   });
 
 const deleteWishlistedProduct = (customerId, productId) =>
   db.WishlistedProduct.destroy({
     where: {
       customerId,
-      productId
-    }
+      productId,
+    },
   });
 
 const saveNewSubscription = (customerId, merchantId) =>
   db.Subscription.create({
     customerId,
-    merchantId
+    merchantId,
   });
 
 const findCustomerSubscriptions = customerId =>
   db.Subscription.findAll({
-    where: { customerId }
+    where: { customerId },
   });
 
 const deleteSubscription = (customerId, merchantId) =>
   db.Subscription.destroy({
     where: {
       customerId,
-      merchantId
-    }
+      merchantId,
+    },
   });
 
 const saveNewShoppingCartedProduct = (entry, customerId) =>
@@ -138,12 +137,12 @@ const saveNewShoppingCartedProduct = (entry, customerId) =>
   db.ShoppingCartedProduct.findOne({
     where: {
       customerId,
-      productId: entry.id
-    }
-  }).then(product => {
+      productId: entry.id,
+    },
+  }).then((product) => {
     if (product) {
       return product.update({
-        quantity: product.quantity + 1
+        quantity: product.quantity + 1,
       });
     }
     // if product doesn't exist, create it
@@ -153,41 +152,41 @@ const saveNewShoppingCartedProduct = (entry, customerId) =>
       unitPrice: entry.unitPrice,
       quantity: 1,
       customerId,
-      productId: entry.id
+      productId: entry.id,
     });
   });
 
 const findShoppingCartedProducts = customerId =>
   db.ShoppingCartedProduct.findAll({
-    where: { customerId }
+    where: { customerId },
   });
 
 const deleteShoppingCartedProduct = (entry, customerId) =>
   db.ShoppingCartedProduct.destroy({
     where: {
       customerId,
-      productId: entry.productId
-    }
+      productId: entry.productId,
+    },
   });
 
 const editShoppingCartedProduct = (entry, customerId) =>
   db.ShoppingCartedProduct.findOne({
     where: {
       customerId,
-      productId: entry.productId
-    }
-  }).then(product => {
-    if (entry.type === "increase") {
+      productId: entry.productId,
+    },
+  }).then((product) => {
+    if (entry.type === 'increase') {
       return product.update({
-        quantity: product.quantity + 1
+        quantity: product.quantity + 1,
       });
     }
-    if (entry.type === "decrease") {
+    if (entry.type === 'decrease') {
       if (product.quantity === 1) {
         product.destroy();
       }
       return product.update({
-        quantity: product.quantity - 1
+        quantity: product.quantity - 1,
       });
     }
   });
@@ -195,8 +194,8 @@ const editShoppingCartedProduct = (entry, customerId) =>
 const editMerchantProfile = (merchantId, entry) =>
   db.Merchant.findOne({
     where: {
-      id: merchantId
-    }
+      id: merchantId,
+    },
   }).then(merchant =>
     merchant.update({
       storeName: entry.storeName,
@@ -205,15 +204,14 @@ const editMerchantProfile = (merchantId, entry) =>
       location: entry.location,
       facebook: entry.facebook,
       twitter: entry.twitter,
-      description: entry.description
-    })
-  );
+      description: entry.description,
+    }));
 
 const editMerchantProfileAndFindByEmail = entry =>
   db.Merchant.findOne({
     where: {
-      email: entry.email
-    }
+      email: entry.email,
+    },
   }).then(merchant =>
     merchant.update({
       logo: entry.logo,
@@ -225,16 +223,15 @@ const editMerchantProfileAndFindByEmail = entry =>
       facebook: entry.facebook,
       twitter: entry.twitter,
       description: entry.description,
-      currentProduct: entry.currentProduct
-    })
-  );
+      currentProduct: entry.currentProduct,
+    }));
 
-const findOneCustomer = customerId => {
-  console.log("short syntax");
+const findOneCustomer = (customerId) => {
+  console.log('short syntax');
   return db.Customer.findOne({
     where: {
-      id: customerId
-    }
+      id: customerId,
+    },
   });
 };
 
@@ -246,50 +243,50 @@ const findOneCustomer = customerId => {
 const findOneMerchant = merchantId =>
   db.Merchant.findOne({
     where: {
-      id: merchantId
-    }
+      id: merchantId,
+    },
   });
 
 const findOneMerchantBySub = merchantIdToken =>
   db.Merchant.findOne({
     where: {
-      sub: jwt.decode(merchantIdToken).sub
-    }
+      sub: jwt.decode(merchantIdToken).sub,
+    },
   });
 
 const findOneCustomerBySub = customerIdToken =>
   db.Customer.findOne({
     where: {
-      sub: jwt.decode(customerIdToken).sub
-    }
+      sub: jwt.decode(customerIdToken).sub,
+    },
   });
 
 const findOneProduct = productId =>
   db.Product.findOne({
     where: {
-      id: productId
-    }
+      id: productId,
+    },
   });
 
 const findProductsOfMerchant = merchantId =>
   db.Product.findAll({
     where: {
-      merchantId
-    }
+      merchantId,
+    },
   });
 
 const findReviewsOfMerchant = merchantId =>
   db.MerchantReview.findAll({
     where: {
-      id: merchantId
-    }
+      id: merchantId,
+    },
   });
 
 const findReviewsOfProduct = productId =>
   db.ProductReview.findAll({
     where: {
-      productId
-    }
+      productId,
+    },
   });
 
 const getAllMerchants = () => db.Merchant.findAll({});
@@ -307,44 +304,42 @@ const getOneStream = merchantId => db.Stream.findOne({ where: { merchantId } });
 const editStream = (entry, merchantId) =>
   db.Stream.findOne({
     where: {
-      merchantId
-    }
+      merchantId,
+    },
   }).then(stream =>
     stream.update({
       url: entry.url,
       broadcastMessage: entry.broadcastMessage,
       currentProduct: entry.currentProduct,
-      live: entry.live
-    })
-  );
+      live: entry.live,
+    }));
 
 const editMerchantFeaturedProduct = (entry, merchantId) =>
   db.Merchant.findOne({
     where: {
-      id: merchantId
-    }
+      id: merchantId,
+    },
   }).then((merchant) => {
     merchant.update({
-      currentProduct: entry.product.id
+      currentProduct: entry.product.id,
     });
     // update the stream table
     db.Stream.findOne({
       where: {
-        merchantId: merchantId
-      }
+        merchantId,
+      },
     }).then((merchantStream) => {
       merchantStream.update({
-        currentProduct: entry.product.id
+        currentProduct: entry.product.id,
       });
-    })
+    });
   }).catch((err) => {
     console.log(err);
   });
 
 const changeToMerchant = customerId =>
   db.Customer.findOne({ id: customerId }).then(customer =>
-    saveNewMerchant({ email: customer.email })
-  );
+    saveNewMerchant({ email: customer.email }));
 
 module.exports = {
   saveNewProduct,
@@ -382,5 +377,5 @@ module.exports = {
   findOneMerchantBySub,
   findOneCustomerBySub,
   saveNewStream,
-  getOneStream
+  getOneStream,
 };

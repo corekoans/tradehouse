@@ -3,3 +3,5 @@
 * Customer = Customer 
 * Product = Product
 * Price = Price
+* Broadcast = Broadcast
+* Stream = Stream
