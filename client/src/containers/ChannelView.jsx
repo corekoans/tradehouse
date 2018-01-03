@@ -89,7 +89,7 @@ class ChannelView extends React.Component {
           <Link to={`/checkout/${this.props.customerInfo.id}`}>View Cart</Link>
         </div>
 
-      {/*Socket.io */}
+        {/* Socket.io */}
         <ul id="messages" />
         <form action="">
           <input id="m" autoComplete="off" /><button>Send</button>
