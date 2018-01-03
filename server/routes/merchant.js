@@ -62,6 +62,7 @@ router.post('/', asyncMiddleware(async (req, res, next) => {
   }); 
 
   res.json(newMerchant);
+
 }));
 
 

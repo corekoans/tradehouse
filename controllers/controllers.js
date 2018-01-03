@@ -19,8 +19,7 @@ const deleteProduct = entry =>
       merchantId: entry.merchantId,
       title: entry.title
     }
-  })
-  .then;
+  });
 
 const saveNewMerchant = entry =>
   db.Merchant.findOrCreate({
@@ -39,8 +38,6 @@ const saveNewMerchant = entry =>
       sub: jwt.decode(entry.currentIdToken).sub
     }
   });
-
-
 
 const saveNewStream = entry =>
   db.Stream.create({

@@ -43,7 +43,6 @@ router.get('/', asyncMiddleware(async (req, res, next) => {
 router.delete('/', asyncMiddleware(async (req, res, next) => {
   // TODO: on frontend, make it so that it is not necessary to pass back entire product list
   // presently, only the products for a given merchant are passed back
-  // const deletedProduct = await controllers.findOneProduct()
   const rows = await controllers.deleteProduct(req.body)
     .then(() => controllers.findProductsOfMerchant(req.body.merchantId))
   var merchantId = req.body.merchantId;
