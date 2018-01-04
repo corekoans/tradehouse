@@ -45,6 +45,12 @@ const defaultState = {
   wishlist: [],
   streamInfo: {},
   streams: [],
+  allStreamsSearch: [],
+  streamsSearch: [],
+  allMerchantsSearch: [],
+  merchantsSearch: [],
+  allProductsSearch: [],
+  productsSearch: [],
 };
 const store = createStore(
   tradehouseApp,
@@ -81,7 +87,6 @@ const Root = ({ store }) => (
           </Switch>
         </div>
         {/* Main Content */}
-
         <Footer />
       </div>
     </Router>
