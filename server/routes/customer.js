@@ -28,7 +28,8 @@ router.post('/:customerId/chargeCard', (req, res, next) => {
       console.error(err);
     } else {
       console.log('Charge: ',charge);
-      res.send('Payment Successful');
+      controllers.emptyCart(req.params.customerId)
+      .then(res.send('Payment Successful'));
     }
   });
 });
