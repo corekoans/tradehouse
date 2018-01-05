@@ -19,8 +19,8 @@ class CustomerHome extends React.Component {
 
   componentDidMount() {
     this.props.fetchCustomerInfoByToken()
-        .then(() => this.props.fetchWishlist(this.props.customerInfo.id))
-        .then(() => this.props.fetchSubscriptions(this.props.customerInfo.id));
+      .then(() => this.props.fetchWishlist(this.props.customerInfo.id))
+      .then(() => this.props.fetchSubscriptions(this.props.customerInfo.id));
   }
 
   render() {
