@@ -1,5 +1,5 @@
 * Overview
-This project uses a linear history workflow, i.e., /rebase/ instead of /merge/.
+This project uses a linear history workflow, with /rebase/ instead of /merge/.
 
 ** Style Guide
 This project uses the Airbnb style guide. Refer to: https://github.com/airbnb/javascript.

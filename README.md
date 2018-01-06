@@ -15,6 +15,7 @@
 - Node 8.9.3
 - Java 8
 - Elastic Search 6.1.0
+- MySQL
 
 ### Installing Dependencies
 
@@ -22,8 +23,41 @@ From within the root directory:
 
 ```sh
 npm install
+```
+
+To install Elasticsearch on Debian-based Linux systems:
+
+```sh
+sudo apt-get install apt-transport-https
+echo "deb https://artifacts.elastic.co/packages/6.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-6.x.list
+sudo apt-get update && sudo apt-get install elasticsearch
+```
+
+Determine whether your system uses init or systemd:
+
+```sh
+ps -p 1
+```
+
+To start and stop Elasticsearch with init:
+```sh
+sudo -i service elasticsearch start
+sudo -i service elasticsearch stop
+```
+
+To start and stop Elasticsearch with systemd:
+```sh
+sudo systemctl start elasticsearch.service
+sudo systemctl stop elasticsearch.service
+```
+
+Finally, run from the root directory
+
+```sh
 npm run be-start
 ```
+
+and visit http://localhost:5421/ in the browser.
 
 ## Team
 
